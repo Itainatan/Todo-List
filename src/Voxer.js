@@ -4,29 +4,31 @@ class Voxer extends React.Component {
 
     constructor() {
         super();
-        this.state = { list: [], numtodo: 0};
+        this.state = {
+            list: [],
+            numtodo: 0,
+            input: ''
+        };
     }
 
-    Addtolist = (e) => {
+    addToList = (e) => {
         e.preventDefault();
-        if (this._inputElement.value !== "") {
-            const list = [...this.state.list, {item: this._inputElement.value, complete: false}];
-            let numtohave = this.state.numtodo;
-            numtohave++;
-            this.setState({ list: list, numtodo: numtohave });
+        if (this.state.input) {
+            const list = [...this.state.list, { item: this.state.input, complete: false }];
+            this.setState({ list: list, numtodo: this.state.numtodo + 1 });
         }
-        this._inputElement.value = "";
     }
 
-    Change = (index) => {
-        let numtohave = this.state.numtodo;
-        if(numtohave > 0)
-        numtohave--;
-        let list = this.state.list;
-        list[index].complete = true;
-        this.setState({ list: list, numtodo: numtohave });
+    changeTask = (index) => {
+        let { list, numtodo } = this.state;
+        list[index].complete ? numtodo++ : numtodo--;
+        list[index].complete = !list[index].complete;
+        this.setState({ list, numtodo });
     }
 
+    inputChange = (e) => {
+        this.setState({ input: e.target.value })
+    }
 
 
 
@@ -41,14 +43,14 @@ class Voxer extends React.Component {
                 <h5>
                     {this.state.numtodo} tasks todo from {this.state.list.length} tasks
                 </h5>
-                <form onSubmit={this.Addtolist}>
-                    <input size="35" placeholder="enter task" ref={(a) => this._inputElement = a} />
+                <form onSubmit={this.addToList}>
+                    <input size="35" placeholder="enter task" onChange={this.inputChange} />
                     <button type="submit"> ADD TO LIST </button>
                 </form>
 
-                <ul> {this.state.list.map((item, index) => 
-                        <li style={(item.complete) ? line : {}} key={index} onClick={() => this.Change(index)}>{item.item}</li>
-                    )
+                <ul> {this.state.list.map((item, index) =>
+                    <li style={(item.complete) ? line : {}} key={index} onClick={() => this.changeTask(index)}>{item.item}</li>
+                )
                 }
                 </ul>
             </div>
