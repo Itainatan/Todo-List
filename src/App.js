@@ -1,12 +1,10 @@
 import React from 'react';
-import Voxer from "./Voxer";
-import './App.css';
+import Todo from "./Todo";
 
 function App() {
   return (
     <div className="App">
- 
-    <Voxer />
+      <Todo />
     </div>
   );
 }

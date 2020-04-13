@@ -1,6 +1,6 @@
 import React from "react";
 
-class Voxer extends React.Component {
+class Todo extends React.Component {
 
     constructor() {
         super();
@@ -11,7 +11,7 @@ class Voxer extends React.Component {
         };
     }
 
-    addToList = (e) => {
+    addToList = e => {
         e.preventDefault();
         if (this.state.input) {
             const list = [...this.state.list, { item: this.state.input, complete: false }];
@@ -19,23 +19,20 @@ class Voxer extends React.Component {
         }
     }
 
-    changeTask = (index) => {
+    changeTask = index => {
         let { list, numtodo } = this.state;
         list[index].complete ? numtodo++ : numtodo--;
         list[index].complete = !list[index].complete;
         this.setState({ list, numtodo });
     }
 
-    inputChange = (e) => {
-        this.setState({ input: e.target.value })
-    }
+    inputChange = e => this.setState({ input: e.target.value })
 
-
-
+    
     render() {
         const line = { textDecoration: 'line-through' };
-        return (
 
+        return (
             <div>
                 <h1>
                     Todo-List
@@ -48,10 +45,13 @@ class Voxer extends React.Component {
                     <button type="submit"> ADD TO LIST </button>
                 </form>
 
-                <ul> {this.state.list.map((item, index) =>
-                    <li style={(item.complete) ? line : {}} key={index} onClick={() => this.changeTask(index)}>{item.item}</li>
-                )
-                }
+                <ul>
+                    {
+                        this.state.list.map(
+                            (item, index) =>
+                                <li style={(item.complete) ? line : {}} key={index} onClick={() => this.changeTask(index)}>{item.item}</li>
+                        )
+                    }
                 </ul>
             </div>
         );
@@ -60,4 +60,4 @@ class Voxer extends React.Component {
 }
 
 
-export default Voxer;
+export default Todo;
