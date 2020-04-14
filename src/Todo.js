@@ -1,62 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 
-class Todo extends React.Component {
+const Todo = () => {
+    const [list, setList] = useState([]);
+    const [num, setNum] = useState(0);
+    const [input, setInput] = useState('');
 
-    constructor() {
-        super();
-        this.state = {
-            list: [],
-            numtodo: 0,
-            input: ''
-        };
-    }
-
-    addToList = e => {
-        e.preventDefault();
-        if (this.state.input) {
-            const list = [...this.state.list, { item: this.state.input, complete: false }];
-            this.setState({ list: list, numtodo: this.state.numtodo + 1 });
+    const addToList = () => {
+        if (input) {
+            setList([...list, { item: input, complete: false }]);
+            setNum(num + 1);
         }
     }
 
-    changeTask = index => {
-        let { list, numtodo } = this.state;
-        list[index].complete ? numtodo++ : numtodo--;
+    const changeTask = index => {
+        list[index].complete ? setNum(num + 1) : setNum(num - 1);
         list[index].complete = !list[index].complete;
-        this.setState({ list, numtodo });
+        setList(list);
     }
 
-    inputChange = e => this.setState({ input: e.target.value })
+    const inputChange = e => setInput(e.target.value)
 
-    
-    render() {
-        const line = { textDecoration: 'line-through' };
+    const line = { textDecoration: 'line-through' };
 
-        return (
-            <div>
-                <h1>
-                    Todo-List
-                </h1>
-                <h5>
-                    {this.state.numtodo} tasks todo from {this.state.list.length} tasks
-                </h5>
-                <form onSubmit={this.addToList}>
-                    <input size="35" placeholder="enter task" onChange={this.inputChange} />
-                    <button type="submit"> ADD TO LIST </button>
-                </form>
-
-                <ul>
-                    {
-                        this.state.list.map(
-                            (item, index) =>
-                                <li style={(item.complete) ? line : {}} key={index} onClick={() => this.changeTask(index)}>{item.item}</li>
-                        )
-                    }
-                </ul>
-            </div>
-        );
-    }
-
+    return (
+        <div>
+            <h1>Todo-List</h1>
+            <h5>{num} tasks todo from {list.length} tasks</h5>
+            <input size="35" placeholder="enter task" onChange={inputChange} />
+            <button onClick={addToList}> ADD TO LIST </button>
+            <ul>
+                {
+                    list.map(
+                        (item, index) =>
+                            <li style={(item.complete) ? line : {}} key={index} onClick={() => changeTask(index)}>{item.item}</li>
+                    )
+                }
+            </ul>
+        </div>
+    );
 }
 
 
