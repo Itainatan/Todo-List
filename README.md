@@ -1,4 +1,4 @@
-## Todo-List Site 😷
+## Todo-List Site 📙
 
 👉🏽 [Demo](https://todo-list-itai-web.netlify.com/)
 
